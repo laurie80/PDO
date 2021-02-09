@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-class Show extends Database {
+class Shows extends Database
+{
 
     private $id;
     private $title;
@@ -11,16 +12,16 @@ class Show extends Database {
     private $secondGenreId;
     private $duration;
     private $startTime;
-    
+
 
     public function __construct()
     {
         parent::__construct();
-    } 
+    }
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -30,7 +31,7 @@ class Show extends Database {
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -40,7 +41,7 @@ class Show extends Database {
 
     /**
      * Get the value of title
-     */ 
+     */
     public function getTitle()
     {
         return $this->title;
@@ -50,7 +51,7 @@ class Show extends Database {
      * Set the value of title
      *
      * @return  self
-     */ 
+     */
     public function setTitle($title)
     {
         $this->title = $title;
@@ -60,7 +61,7 @@ class Show extends Database {
 
     /**
      * Get the value of performer
-     */ 
+     */
     public function getPerformer()
     {
         return $this->performer;
@@ -70,7 +71,7 @@ class Show extends Database {
      * Set the value of performer
      *
      * @return  self
-     */ 
+     */
     public function setPerformer($performer)
     {
         $this->performer = $performer;
@@ -80,7 +81,7 @@ class Show extends Database {
 
     /**
      * Get the value of date
-     */ 
+     */
     public function getDate()
     {
         return $this->date;
@@ -90,7 +91,7 @@ class Show extends Database {
      * Set the value of date
      *
      * @return  self
-     */ 
+     */
     public function setDate($date)
     {
         $this->date = $date;
@@ -100,7 +101,7 @@ class Show extends Database {
 
     /**
      * Get the value of showTypeqId
-     */ 
+     */
     public function getShowTypeqId()
     {
         return $this->showTypeqId;
@@ -110,7 +111,7 @@ class Show extends Database {
      * Set the value of showTypeqId
      *
      * @return  self
-     */ 
+     */
     public function setShowTypeqId($showTypeqId)
     {
         $this->showTypeqId = $showTypeqId;
@@ -120,7 +121,7 @@ class Show extends Database {
 
     /**
      * Get the value of firstGenreId
-     */ 
+     */
     public function getFirstGenreId()
     {
         return $this->firstGenreId;
@@ -130,7 +131,7 @@ class Show extends Database {
      * Set the value of firstGenreId
      *
      * @return  self
-     */ 
+     */
     public function setFirstGenreId($firstGenreId)
     {
         $this->firstGenreId = $firstGenreId;
@@ -140,7 +141,7 @@ class Show extends Database {
 
     /**
      * Get the value of secondGenreId
-     */ 
+     */
     public function getSecondGenreId()
     {
         return $this->secondGenreId;
@@ -150,7 +151,7 @@ class Show extends Database {
      * Set the value of secondGenreId
      *
      * @return  self
-     */ 
+     */
     public function setSecondGenreId($secondGenreId)
     {
         $this->secondGenreId = $secondGenreId;
@@ -160,7 +161,7 @@ class Show extends Database {
 
     /**
      * Get the value of duration
-     */ 
+     */
     public function getDuration()
     {
         return $this->duration;
@@ -170,7 +171,7 @@ class Show extends Database {
      * Set the value of duration
      *
      * @return  self
-     */ 
+     */
     public function setDuration($duration)
     {
         $this->duration = $duration;
@@ -180,7 +181,7 @@ class Show extends Database {
 
     /**
      * Get the value of startTime
-     */ 
+     */
     public function getStartTime()
     {
         return $this->startTime;
@@ -190,11 +191,30 @@ class Show extends Database {
      * Set the value of startTime
      *
      * @return  self
-     */ 
+     */
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
 
         return $this;
+    }
+
+    // EXO 6 : AFFICHER LE TITRE DE TOUS LES SPECTACLES, L ARTISTE, LA DATE ET L HEURE,
+    // LES TITRES PAR ORDRE ALPHABETIQUE, 
+    // SPECTACLE = ARTISTE
+    // DATE = HEURE
+    public function showInfos()
+    {
+        $Show = "SELECT `shows`.`title`, `shows`.`performer`, `shows`.`date`, `shows`.`startTime`
+                    FROM `shows`
+                    ORDER BY `shows`.`title`";
+        $showsInfos = $this->getDb()->prepare($Show);
+        $showsInfos->execute();
+        $resultshowsInfos = $showsInfos->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($resultshowsInfos)) {
+            return $resultshowsInfos;
+        } else {
+            return false;
+        }
     }
 }

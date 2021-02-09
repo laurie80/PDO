@@ -167,6 +167,13 @@ class Clients extends Database {
         $cardClients = "SELECT * 
                         FROM `clients`  
                         WHERE `card`= 1";
+        // SECONDE OPTION : EN SELECTIONNER PRESCISEMMENT LE TYPE DE CARTE DE FIDELITE AVEC UNE JOINTURE
+                    // SELECT clients.lastName, clients.firstName 
+                    // FROM clients INNER JOIN cards 
+                    // ON clients.cardNumber = cards.cardNumber 
+                    // INNER JOIN cardTypes on cards.cardTypesID = cardTypes.id 
+                    // WHERE type = 'Fidélité'
+                
         $cardFidelityClients = $this->getDb()->prepare($cardClients);
         $cardFidelityClients->execute();
         $resultcardFidelityClients = $cardFidelityClients->fetchAll(PDO::FETCH_ASSOC);
@@ -177,18 +184,35 @@ class Clients extends Database {
         }
     }
 
-    // <!-- EXO 4 : n'afficher que les clients possédant un nom commençcant par "M"  -->
+    // <!-- EXO 5 : n'afficher que les clients possédant un nom commençcant par "M"  -->
     public function nameClientsM()
     {
         $ClientsM = "SELECT `clients`.`lastName`, `clients`.`firstName`
-                        FROM `clients`  
-                        WHERE `lastName` LIKE 'M%'
-                        ORDER BY `clients`.`lastName`";
+                    FROM `clients`  
+                    WHERE `lastName` LIKE 'M%'
+                    ORDER BY `clients`.`lastName`";
         $nameClientsM = $this->getDb()->prepare($ClientsM);
         $nameClientsM->execute();
         $resultnameClientsM = $nameClientsM->fetchAll(PDO::FETCH_ASSOC);
         if (!empty($resultnameClientsM)) {
             return $resultnameClientsM;
+        } else {
+            return false;
+        }
+    }
+
+    // EXO 7 : AFFICHER TOUT LES CLIENTS DANS CET ORDRE 
+    // NOM, PRENOM, DATE DE NAISSANCE, CARTE DE FIDELITE 'oui' ou 'non', NUMERO DE CARTE 's'il en a une'
+
+    public function identityClients()
+    {
+        $Clients = "SELECT `clients`.`lastName`, `clients`.`firstName`, `clients`.`birthDate`, `clients`.`card`, `clients`.`cardNumber`
+                    FROM `clients`"; 
+        $identityClients = $this->getDb()->prepare($Clients);
+        $identityClients->execute();
+        $resultidentityClients = $identityClients->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($resultidentityClients)) {
+            return $resultidentityClients;
         } else {
             return false;
         }
