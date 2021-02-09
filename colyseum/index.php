@@ -78,14 +78,15 @@ require "Controllers/index_controller.php";
 ?>
 
 <p></br>Ci-dessous, fiche d'identité de chaque client :</p>
-
+<!-- LE FAIRE AVEC LA CORRECTION DE SORAYA SUR LE TYPE DE CARTE DE FIDELITE
+ET AUSSI VOIR VERSION TERNAIRE -->
     <?php
     foreach ($resultidentityClients as $key => $value) {
     ?>
 <p></br>Nom : <?= $value["lastName"] ?></p>
 <p>Prénom : <?= $value["firstName"] ?></p>
 <p>Date de naissance : <?= $value["birthDate"] ?></p>
-<p>Carte de fidélité :
+<p>Posséssion d'une carte ?
     <?php
         if ($value["card"] == 0) {
             echo "Non";
@@ -93,6 +94,8 @@ require "Controllers/index_controller.php";
             echo "Oui";
         }
     ?>
+    <!-- VERSION TERNAIRE
+    'ouverture echo court' = ($value["card"] == 0) ? "Non" : "Oui" 'fermeture echo court' -->
 </p>
 <p>
     <?php
@@ -102,8 +105,21 @@ require "Controllers/index_controller.php";
             echo "Numéro de carte : " . $value["cardNumber"];
         }
     ?>
-</p>
+        <!-- VERSION TERNAIRE
+    'ouverture echo court' = ($value["card"] == 0) ? "" : "Numéro de carte : " . $value["cardNumber"] 'fermeture echo court' -->
 
+</p>
+<?php
+        if ($value["card"] == 0) {
+            echo "";
+        } else {
+            echo "Type de carte: " . $value["type"];
+        }
+    ?>
+            <!-- VERSION TERNAIRE
+    'ouverture echo court' = ($value["card"] == 0) ? "" : "Type de carte: " . $value["type"] 'fermeture echo court' -->
+
+</p>
 <?php
     }
 ?>

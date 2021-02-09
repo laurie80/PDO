@@ -206,8 +206,11 @@ class Clients extends Database {
 
     public function identityClients()
     {
-        $Clients = "SELECT `clients`.`lastName`, `clients`.`firstName`, `clients`.`birthDate`, `clients`.`card`, `clients`.`cardNumber`
-                    FROM `clients`"; 
+        $Clients = "SELECT `clients`.`lastName`, `clients`.`firstName`, `clients`.`birthDate`, `clients`.`card`, `clients`.`cardNumber`, `cards`.`cardTypesId`, `cardtypes`.`type`  FROM `clients` LEFT JOIN `cards` 
+                    ON `clients`.`cardNumber` = `cards`.`cardNumber` 
+                    LEFT JOIN `cardTypes` 
+                    ON `cards`.`cardTypesID` = `cardTypes`.`id` 
+                    ORDER BY `lastName`";
         $identityClients = $this->getDb()->prepare($Clients);
         $identityClients->execute();
         $resultidentityClients = $identityClients->fetchAll(PDO::FETCH_ASSOC);
@@ -217,4 +220,22 @@ class Clients extends Database {
             return false;
         }
     }
+
+    // public function cardFidelityClients()
+    // {
+    //     $Clients = "SELECT `clients`.`lastName`, `clients`.`firstName`
+    //                 FROM `clients` 
+                    // INNER JOIN `cards` 
+    //                 ON `clients`.`cardNumber` = `cards`.`cardNumber`
+    //                 INNER JOIN `cardTypes` on `cards`.`cardTypesID` = `cardTypes`.`id `.
+    //                 WHERE `type` = 'Fidélité'"; 
+    //     $identityClients = $this->getDb()->prepare($Clients);
+    //     $identityClients->execute();
+    //     $resultidentityClients = $identityClients->fetchAll(PDO::FETCH_ASSOC);
+    //     if (!empty($resultidentityClients)) {
+    //         return $resultidentityClients;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 }
